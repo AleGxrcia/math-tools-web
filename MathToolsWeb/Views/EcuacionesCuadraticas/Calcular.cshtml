@@ -1,0 +1,62 @@
+﻿@model EcuacionCuadratica
+
+@{
+    ViewData["Title"] = "Calculadora";
+}
+
+<div class="container-fluid" style="max-width: 75%;">
+    <h1>Calculadora de Ecuaciones Cuadraticas</h1>
+    <p>Esta calculadora resuelve ecuaciones cuadráticas utilizando la fórmula general:</p>
+    <p style="text-align: left;">\[ \ x = {-b \pm \sqrt{b^2-4ac} \over 2a}.\]</p>
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <form asp-controller="EcuacionesCuadraticas" asp-action="Calcular">
+        <div class="mb-3 row">
+            <div class="col-4">
+                <label asp-for="A" class="form-label fw-bold"></label>
+                <input type="text" asp-for="A" class="form-control" />
+                <span asp-validation-for="A" class="text-danger"></span>
+            </div>
+            <div class="col-4">
+                <label asp-for="B" class="form-label fw-bold"></label>
+                <input type="text" asp-for="B" class="form-control" />
+                <span asp-validation-for="B" class="text-danger"></span>
+            </div>
+            <div class="col-4">
+                <label asp-for="C" class="form-label fw-bold"></label>
+                <input type="text" asp-for="C" class="form-control" />
+                <span asp-validation-for="C" class="text-danger"></span>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Calcular</button>
+    </form>
+    <div class="mt-5">
+    @if (ViewBag.Pasos != null)
+    {
+        <h2>Pasos de cálculo:</h2>
+            <p>Ecuación: \( @ViewBag.Ecuacion.A x^2 + @ViewBag.Ecuacion.B x + @ViewBag.Ecuacion.C \)</p>
+
+
+        <!-- Iterar y mostrar los pasos -->
+        @foreach (var paso in ViewBag.Pasos)
+        {
+            <p>@Html.Raw(paso)</p>
+        }
+    }
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <partial name="_MathJaxScriptsPartial" />
+
+    <script>
+        MathJax = {
+            chtml: {
+                displayAlign: 'left'
+            }
+        };
+    </script>
+}
