@@ -1,0 +1,64 @@
+﻿@model EcuacionCuadratica
+
+@{
+    ViewData["Title"] = "Graficar Parabola";
+}
+
+<div class="container-fluid" style="max-width: 75%;">
+    <h1>Graficar Ecuaciones cuadraticas</h1>
+    <p>Esta herramienta te ayuda a buscar las intersecciones,el vertice y calcula su recta tangente:</p>
+    <p style="text-align: left;">Ecuación: \( ax^2 + bx + c \)</p>
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <form asp-controller="GraficarFunciones" asp-action="Graficar">
+        <div class="mb-3 row">
+            <div class="col-4">
+                <label asp-for="A" class="form-label fw-bold"></label>
+                <input type="text" asp-for="A" class="form-control" />
+                <span asp-validation-for="A" class="text-danger"></span>
+            </div>
+            <div class="col-4">
+                <label asp-for="B" class="form-label fw-bold"></label>
+                <input type="text" asp-for="B" class="form-control" />
+                <span asp-validation-for="B" class="text-danger"></span>
+            </div>
+            <div class="col-4">
+                <label asp-for="C" class="form-label fw-bold"></label>
+                <input type="text" asp-for="C" class="form-control" />
+                <span asp-validation-for="C" class="text-danger"></span>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Calcular</button>
+    </form>
+    <div id="result"></div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <partial name="_MathJaxScriptsPartial" />
+    <script>
+        MathJax = {
+            chtml: {
+                displayAlign: 'left',
+                scale: 0.75
+            }
+        };
+    <script>
+        $(document).ready(function () {
+            $('#form').on('submit', function (event) {
+                event.preventDefault();
+
+                $.ajax({
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        $('#result').html(result);
+                    }
+                });
+            });
+        });
+    </script>
+}
