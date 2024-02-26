@@ -1,0 +1,67 @@
+﻿@model DatosVelocidad
+
+@{
+    ViewData["Title"] = "Calculadora";
+}
+
+<div class="container-fluid" style="max-width: 75%;">
+    <h1>Calculadora de Velocidad Promedio</h1>
+    <p>Esta calculadora determina la velocidad promedio utilizando la fórmula:</p>
+    <p style="text-align: left;">\[ \text{Velocidad promedio} = \frac{\text{Velocidad inicial} + \text{Velocidad final}}{2} \]</p>
+
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <form asp-controller="VelocidadPromedio" asp-action="Calcular">
+        <div class="mb-3 row mt-5">
+            <div class="col-3">
+                <label asp-for="VelocidadInicial" class="form-label fw-bold"></label>
+                <input type="text" asp-for="VelocidadInicial" class="form-control" />
+                <span asp-validation-for="VelocidadInicial" class="text-danger"></span>
+            </div>
+            <div class="col-3">
+                <label asp-for="VelocidadFinal" class="form-label fw-bold"></label>
+                <input type="text" asp-for="VelocidadFinal" class="form-control" />
+                <span asp-validation-for="VelocidadFinal" class="text-danger"></span>
+            </div>
+            <div class="col-3">
+                <label asp-for="Tiempo" class="form-label fw-bold"></label>
+                <input type="text" asp-for="Tiempo" class="form-control" />
+                <span asp-validation-for="Tiempo" class="text-danger"></span>
+            </div>
+            <div class="col-2">
+                <label for="unidadVelocidad" class="form-label fw-bold">Unidades</label>
+                <select id="unidadVelocidad" name="unidadVelocidad" class="form-control">
+                    <option value="mps">m/s</option>
+                    <option value="kmps">km/h</option>
+                    <option value="mph">mph</option>
+                </select>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Calcular</button>
+    </form>
+
+    <div class="mt-5">
+        @if (ViewBag.Resultado != null)
+        {
+            <h2>Resultado:</h2>
+            <h5>Velocidad Promedio: \( @ViewBag.Resultado \) \(@ViewBag.Unidades\)</h5>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <partial name="_MathJaxScriptsPartial" />
+
+    <script>
+        MathJax = {
+            chtml: {
+                displayAlign: 'left',
+                scale: 0.75
+            }
+        };
+    </script>
+
+}
