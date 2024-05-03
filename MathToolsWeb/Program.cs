@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IServicioEcuaciones, ServicioEcuaciones>();
 builder.Services.AddTransient<IServicioVelocidad, ServicioVelocidad>();
+builder.Services.AddTransient<IServicioVelocidad, ServicioVelocidad>();
 
 var app = builder.Build();
 
