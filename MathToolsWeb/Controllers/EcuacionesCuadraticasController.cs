@@ -28,10 +28,16 @@ namespace MathToolsWeb.Controllers
             }
 
             var pasos = servicioEcuaciones.CalcularEcuacionCuadratica(ecuacion);
-            ViewBag.Pasos = pasos;
-            ViewBag.Ecuacion = ecuacion;
 
-            return View(ecuacion);
+            EcuacionCuadratica ecuacionCuadraticaVm = new()
+            {
+                Pasos = pasos,
+                A = ecuacion.A,
+                B = ecuacion.B,
+                C = ecuacion.C
+            };
+
+            return View(ecuacionCuadraticaVm);
         }
     }
 }

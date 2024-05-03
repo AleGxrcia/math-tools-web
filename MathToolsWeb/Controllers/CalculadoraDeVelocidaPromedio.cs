@@ -29,6 +29,7 @@ namespace MathToolsWeb.Controllers
             var resultado = servicioVelocidad.CalcularVelocidadPromedio(datos);
             ViewBag.Resultado = resultado;
             ViewBag.Datos = datos;
+            ViewBag.Unidades = Request.Form["unidadVelocidad"];
 
             return View(datos);
         }

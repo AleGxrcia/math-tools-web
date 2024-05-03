@@ -1,0 +1,92 @@
+﻿@model EcuacionCuadratica
+@{
+    var ecA = ViewBag.Ecuacion.A;
+    var ecB = ViewBag.Ecuacion.B;
+    var ecC = ViewBag.Ecuacion.C;
+
+    string signB = ecB < 0 ? " - " : " + ";
+    string absB = Math.Abs(ecB).ToString();
+
+    string signC = ecC < 0 ? " - " : " + ";
+    string absC = Math.Abs(ecC).ToString();
+}
+
+
+<div class="container-fluid" style="max-width: 75%;">
+    <div class="mt-5">
+
+        @if (ViewBag.InterseccionX != null)
+        {
+
+            <h3>Grafica de la ecuación: \( @((ecA == 1) ? "x^2" : ecA + "x^2") @signB @absB x @signC @absC \)</h3>
+            <hr />
+
+            <div class="row">
+                <div class="col-md-6 mt-3">
+                    <h5>Intersecciones de X</h5>
+                    @foreach (var interseccion in ViewBag.InterseccionX)
+                    {
+                        <p>@Html.Raw(interseccion)</p>
+                    }
+
+                    <h5 class="pt-4">Intersecciones de Y</h5>
+                    <p style="text-align: left;">@ViewBag.InterseccionY</p>
+
+                    <h5 class="pt-4">Vértice</h5>
+                    <p>@ViewBag.Vertice</p>
+
+                    <h5 class="pt-4">Recta Tangente</h5>
+                    @{
+                        var pendiente = ViewBag.Pendiente;
+                        var b = ViewBag.PuntoPendiente;
+                        string ecuacion;
+                        if (b < 0)
+                        {
+                            ecuacion = $"{pendiente}x - {-b}";
+                        }
+                        else
+                        {
+                            ecuacion = $"{pendiente}x + {b}";
+                        }
+                        <p>$$ y = @ecuacion $$</p>
+                    }
+
+                </div>
+                <div class="col-md-6">
+                    <div id="box" class="jxgbox" style="width:500px; height:500px;"></div>
+                </div>
+            </div>
+
+        }
+        <br />
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_MathJaxScriptsPartial" />
+
+    <script>
+        MathJax = {
+            chtml: {
+                displayAlign: 'left',
+                scale: 0.75
+            }
+        };
+    </script>
+
+    <script type="text/javascript">
+        JXG.Options.text.useMathJax = true;
+        var board = JXG.JSXGraph.initBoard('box', { boundingbox: [-6, 6, 6, -6], axis: true, moveable: true });
+
+        var a = @ViewBag.Ecuacion.A;
+        var b = @ViewBag.Ecuacion.B != null && @ViewBag.Ecuacion.B <0 ? ' ' + @ViewBag.Ecuacion.B : ' + ' + @ViewBag.Ecuacion.B;
+        var c = @ViewBag.Ecuacion.C != null && @ViewBag.Ecuacion.C <0 ? ' ' + @ViewBag.Ecuacion.C : ' + ' + @ViewBag.Ecuacion.C;
+        var graph = board.create('functiongraph', [new Function('x', 'return ' + a + ' * x * x' + b + ' * x' + c), -10, 10], { strokeWidth: 2 });
+
+        var puntoPendiente = @ViewBag.PuntoPendiente <0 ? ' ' + @ViewBag.PuntoPendiente : ' + ' + @ViewBag.PuntoPendiente;
+        var graph = board.create('functiongraph', [new Function('x', 'return ' + @ViewBag.Pendiente + ' * x' + @ViewBag.PuntoPendiente), -10, 10], { strokeColor: 'red', strokeWidth: 2 });
+
+        MathJax.typesetPromise();
+    </script>
+}
+

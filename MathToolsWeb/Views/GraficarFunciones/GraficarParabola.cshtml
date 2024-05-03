@@ -1,17 +1,17 @@
 ﻿@model EcuacionCuadratica
 
 @{
-    ViewData["Title"] = "Calculadora";
+    ViewData["Title"] = "Graficar Parabola";
 }
 
 <div class="container-fluid" style="max-width: 75%;">
-    <h1>Calculadora de Ecuaciones Cuadraticas</h1>
-    <p>Esta calculadora resuelve ecuaciones cuadráticas utilizando la fórmula general:</p>
-    <p style="text-align: left;">\[ \ x = {-b \pm \sqrt{b^2-4ac} \over 2a}.\]</p>
+    <h1>Graficar Ecuaciones cuadraticas</h1>
+    <p>Esta herramienta te ayuda a buscar las intersecciones,el vertice y calcula su recta tangente:</p>
+    <p style="text-align: left;">Ecuación: \( ax^2 + bx + c \)</p>
 
     <div asp-validation-summary="All" class="text-danger"></div>
 
-    <form asp-controller="EcuacionesCuadraticas" asp-action="Calcular">
+    <form asp-controller="GraficarFunciones" asp-action="Graficar">
         <div class="mb-3 row">
             <div class="col-4">
                 <label asp-for="A" class="form-label fw-bold"></label>
@@ -32,32 +32,33 @@
 
         <button type="submit" class="btn btn-primary">Calcular</button>
     </form>
-    <div class="mt-5">
-    @if (Model != null && Model.Pasos != null)
-    {
-        <h2>Pasos de cálculo:</h2>
-            <p>Ecuación: \( @((Model.A == 1) ? "x^2" : Model.A + "x^2") + @((Model.B == 1) ? "x" : Model.B + "x") + @Model.C \)</p>
-
-
-        @foreach (var paso in Model.Pasos)
-        {
-            <p>@Html.Raw(paso)</p>
-        }
-    }
-    </div>
+    <div id="result"></div>
 </div>
-
-
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <partial name="_MathJaxScriptsPartial" />
-
     <script>
         MathJax = {
             chtml: {
-                displayAlign: 'left'
+                displayAlign: 'left',
+                scale: 0.75
             }
         };
+    <script>
+        $(document).ready(function () {
+            $('#form').on('submit', function (event) {
+                event.preventDefault();
+
+                $.ajax({
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        $('#result').html(result);
+                    }
+                });
+            });
+        });
     </script>
 }
