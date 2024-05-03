@@ -13,5 +13,6 @@ namespace MathToolsWeb.Models
         [Required(ErrorMessage = "El termino c es requerido")]
         [Display(Name = "c:")]
         public double C { get; set; }
+        public List<string>? Pasos { get; set; }
     }
 }

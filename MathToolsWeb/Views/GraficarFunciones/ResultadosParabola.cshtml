@@ -1,30 +1,29 @@
 ﻿@model EcuacionCuadratica
+@{
+    var ecA = ViewBag.Ecuacion.A;
+    var ecB = ViewBag.Ecuacion.B;
+    var ecC = ViewBag.Ecuacion.C;
+
+    string signB = ecB < 0 ? " - " : " + ";
+    string absB = Math.Abs(ecB).ToString();
+
+    string signC = ecC < 0 ? " - " : " + ";
+    string absC = Math.Abs(ecC).ToString();
+}
 
 
 <div class="container-fluid" style="max-width: 75%;">
     <div class="mt-5">
-        @{
-            var ecA = ViewBag.Ecuacion.A;
-            var ecB = ViewBag.Ecuacion.B;
-            var ecC = ViewBag.Ecuacion.C;
-
-            string signB = ecB < 0 ? " - " : " + ";
-            string absB = Math.Abs(ecB).ToString();
-
-            string signC = ecC < 0 ? " - " : " + ";
-            string absC = Math.Abs(ecC).ToString();
-        }
 
         @if (ViewBag.InterseccionX != null)
         {
 
-            <h3>Grafica de la ecuación: \( @ecA x^2 @signB @absB x @signC @absC \)</h3>
+            <h3>Grafica de la ecuación: \( @((ecA == 1) ? "x^2" : ecA + "x^2") @signB @absB x @signC @absC \)</h3>
             <hr />
 
             <div class="row">
                 <div class="col-md-6 mt-3">
                     <h5>Intersecciones de X</h5>
-                    <!-- Iterar y mostrar los pasos para las intersecciones de X -->
                     @foreach (var interseccion in ViewBag.InterseccionX)
                     {
                         <p>@Html.Raw(interseccion)</p>

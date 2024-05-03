@@ -33,14 +33,13 @@
         <button type="submit" class="btn btn-primary">Calcular</button>
     </form>
     <div class="mt-5">
-    @if (ViewBag.Pasos != null)
+    @if (Model != null && Model.Pasos != null)
     {
         <h2>Pasos de cálculo:</h2>
-            <p>Ecuación: \( @ViewBag.Ecuacion.A x^2 + @ViewBag.Ecuacion.B x + @ViewBag.Ecuacion.C \)</p>
+            <p>Ecuación: \( @((Model.A == 1) ? "x^2" : Model.A + "x^2") + @((Model.B == 1) ? "x" : Model.B + "x") + @Model.C \)</p>
 
 
-        <!-- Iterar y mostrar los pasos -->
-        @foreach (var paso in ViewBag.Pasos)
+        @foreach (var paso in Model.Pasos)
         {
             <p>@Html.Raw(paso)</p>
         }
